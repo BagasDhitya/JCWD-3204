@@ -19,7 +19,10 @@ class TodoServer {
         }
 
         // menentukan endpoint dan method untuk 'Get By Id'
-        
+        else if (url?.startsWith ("/todos/") && method === "GET") {
+            const id = parseInt(url.split("/")[2])
+            res.end(JSON.stringify(this.todoList.getbyIdTodo(id)))
+        }
 
         // menentukan endpoint dan method untuk 'Create Todo'
         else if (url === "/todos" && method === "POST") {

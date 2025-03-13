@@ -13,6 +13,19 @@ export class Todo {
         return this.todos
     }
 
+    // menampilkan todo by id
+    getbyIdTodo(id: number): ITodos | {error: string} {
+        const todo = this.todos.find((value: ITodos) => value.id === id)
+
+        if (!todo) {
+            return {
+                error: "Todo not found"
+            }
+        }
+        return todo
+    }
+    
+
     // menambahkan todo baru
     addTodo(title: string): ITodos {
         const newTodo: ITodos = {
