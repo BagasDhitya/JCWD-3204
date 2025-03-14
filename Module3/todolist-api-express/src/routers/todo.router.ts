@@ -12,7 +12,8 @@ export class TodoRoutes {
     }
 
     private initializeRoutes() {
-        this.router.get("/", this.todoController.getAllTodos)
+        this.router.get("/", this.todoController.getAllTodos.bind(this.todoController))
+        this.router.post("/", this.todoController.addTodo.bind(this.todoController))
     }
 }
 

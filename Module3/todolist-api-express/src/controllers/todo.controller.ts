@@ -9,24 +9,48 @@ export class TodoController {
         this.todoService = new TodoService()
     }
 
-    public async getAllTodos(req: Request, res: Response) {
+    public async getAllTodos(req: Request, res: Response): Promise<void> {
         try {
             const response = await this.todoService.getAllTodos()
             if (response === "Todos not available") {
                 res.status(400).send({
                     message: response,
-                    status: res.status
+                    status: res.statusCode
                 })
             } else {
                 res.status(200).send({
                     data: response,
-                    status: res.status
+                    status: res.statusCode
                 })
             }
         } catch (error) {
             res.status(500).send({
                 message: "Internal server error",
-                status: res.status
+                status: res.statusCode
+            })
+        }
+    }
+
+    public async addTodo(req: Request, res: Response): Promise<void> {
+        try {
+            const { title } = req.body
+            const response = await this.todoService.addTodo(title)
+            if (title === undefined) {
+                res.status(400).send({
+                    message: "Title is required",
+                    status: res.statusCode
+                })
+            } else {
+                res.status(201).send({
+                    message: "Successfully add todo",
+                    status: res.statusCode,
+                    detail: response
+                })
+            }
+        } catch (error) {
+            res.status(500).send({
+                message: "Internal server error",
+                status: res.statusCode
             })
         }
     }

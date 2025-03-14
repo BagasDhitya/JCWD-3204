@@ -9,7 +9,18 @@ interface ITodos {
 // service digunakan untuk memanage logika bisnis aplikasi
 export class TodoService {
     private todos: ITodos[] = data;
-    private idCounter: number = 1;
+    private idCounter: number;
+
+    constructor() {
+        // menentukan idCounter berdasarkan ID terbesar dari data dummy
+        let maxId = 0
+        for (let i = 0; i < this.todos.length; i++) {
+            if (this.todos[i].id > maxId) {
+                maxId = this.todos[i].id
+            }
+        }
+        this.idCounter = maxId + 1;
+    }
 
     public getAllTodos(): ITodos[] | string {
         if (this.todos.length > 0) {
