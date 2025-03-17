@@ -14,6 +14,8 @@ class EmployeeRouter {
     private initializeRoutes(): void {
         this.router.post('/employees', this.employeeController.createEmployee.bind(this.employeeController));
         this.router.get('/employees', this.employeeController.getAllEmployee.bind(this.employeeController))
+        this.router.patch('/employees/:id', this.employeeController.updateEmployeeStatus.bind(this.employeeController))
+        this.router.get('/employees/salary/:id', this.employeeController.calculateNetSalary.bind(this.employeeController))
     }
 }
 
