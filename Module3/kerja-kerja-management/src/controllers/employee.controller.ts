@@ -8,25 +8,27 @@ export class EmployeeController {
         this.employeeService = new EmployeeService()
     }
 
-    async getAllEmployee(req: Request, res: Response): Promise<void> {
+    public async getAllEmployee(req: Request, res: Response): Promise<void> {
         try {
-            const response = await this.employeeService.getAllEmployee()
+           
+            const searchName = req.query.searchName as string | undefined;
+            const response = await this.employeeService.getAllEmployee(searchName);
             if (response) {
                 res.status(200).send({
                     message: "Successfully retrieved data",
                     status: res.statusCode,
                     data: response
-                })
+                });
             }
         } catch (error) {
             res.status(500).send({
                 message: "Internal server error",
                 status: res.statusCode
-            })
+            });
         }
     }
 
-    async createEmployee(req: Request, res: Response): Promise<void> {
+    public async createEmployee(req: Request, res: Response): Promise<void> {
         try {
             const { name, position, salary, status } = req.body
 

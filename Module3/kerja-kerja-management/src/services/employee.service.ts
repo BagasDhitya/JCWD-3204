@@ -13,7 +13,10 @@ export class EmployeeService {
         return maxId + 1
     }
 
-    public getAllEmployee() {
+    public getAllEmployee(searchName?: string) {
+        if(searchName ) {
+            return this.employee.filter(employee => employee.name.toLowerCase().includes(searchName.toLowerCase()))
+        } 
         return this.employee
     }
 
@@ -29,4 +32,5 @@ export class EmployeeService {
         this.employee.push(newEmployee)
         return newEmployee
     }
+    
 }
