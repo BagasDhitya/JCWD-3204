@@ -1,4 +1,5 @@
 import express, { Application } from 'express';
+import { EmployeeRouter } from './routers/employee.router';
 
 class Server {
     private app: Application;
@@ -16,7 +17,7 @@ class Server {
     }
 
     private routes(): void {
-        // this.app.use('/api/RouterName', new RouterNameRouter().router);
+        this.app.use('/api', new EmployeeRouter().router);
     }
 
     public start(): void {

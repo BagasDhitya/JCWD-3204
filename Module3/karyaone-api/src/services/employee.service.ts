@@ -32,20 +32,23 @@ export class EmployeeService {
         })
     }
 
-    async findById(id: string) {
+    async findById(id: number) {
         return prisma.user.findUnique({
             where: { id }
         })
     }
 
-    async update(id: string, data: Partial<EmployeeInput>) {
+    async update(id: number, data: Partial<EmployeeInput>) {
         return prisma.user.update({
             where: { id },
-            data: data
+            data: {
+                ...data,
+                updatedAt: new Date()
+            }
         })
     }
 
-    async delete(id: string) {
+    async delete(id: number) {
         return prisma.user.delete({
             where: { id }
         })
