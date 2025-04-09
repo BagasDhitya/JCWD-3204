@@ -49,8 +49,13 @@ export class AttendanceController {
     public async getMonthlyAttendance(req: Request, res: Response): Promise<void> {
         try {
             const { userId, startDate, endDate } = req.query
+
             const result = await this.attendanceService.getMonthlyAttendance(
-                { userId: Number(userId), startDate: String(startDate), endDate: String(endDate) }
+                {
+                    userId: userId ? Number(userId) : undefined,
+                    startDate: startDate ? String(startDate) : undefined,
+                    endDate: endDate ? String(endDate) : undefined
+                }
             )
             res.status(200).json({
                 data: result

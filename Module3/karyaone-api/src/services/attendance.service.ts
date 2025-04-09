@@ -96,14 +96,21 @@ export class AttendanceService {
         const start = new Date(`${startDate}T00:00:00Z`)
         const end = new Date(`${endDate}T23:59:59Z`)
 
+        const where: any = {}
+
+        if (userId) {
+            where.userId = userId
+        }
+
+        if (startDate && endDate) {
+            where.date = {
+                gte: start,
+                lte: end
+            }
+        }
+
         return await prisma.attendance.findMany({
-            where: {
-                userId: userId,
-                date: {
-                    gte: start,
-                    lte: end
-                }
-            },
+            where,
             orderBy: {
                 date: "asc"
             }
