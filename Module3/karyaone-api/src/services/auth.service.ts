@@ -1,6 +1,6 @@
 import { prisma } from "../prisma/client";
 import { JwtUtils } from "../lib/token.config";
-import bcrypt from 'bcrypt'
+import bcrypt, { hash } from 'bcrypt'
 
 export class AuthService {
     public async login(email: string, password: string) {
@@ -12,11 +12,14 @@ export class AuthService {
 
         // pengecekan pertama : kalau gagal ditolak
         if (!user) {
-            return "Invalid credentials"
+            return "Invalid email or password"
         }
 
+        // sebelum dicompare, hash dulu
+        const hashedPassword = await hash(password, 10) as any
+
         // kalau udah terdaftar, cek lagi passwordnya
-        const isValid = await bcrypt.compare(user.password, password)
+        const isValid = await bcrypt.compare(user.password, hashedPassword)
 
         // pengecekan kedua : kalau gagal ditolak
         if (!isValid) {
