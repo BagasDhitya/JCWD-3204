@@ -25,3 +25,9 @@ export interface AttendanceQuery {
     startDate?: string,
     endDate?: string
 }
+
+export interface UserPayload {
+    id: number,
+    name: string,
+    role: 'HR' | 'EMPLOYEE'
+}

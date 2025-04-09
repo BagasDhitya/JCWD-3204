@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import { EmployeeRouter } from './routers/employee.router';
 import { AttendanceRouter } from './routers/attendance.router';
+import { AuthRouter } from './routers/auth.router';
 
 class Server {
     private app: Application;
@@ -20,6 +21,7 @@ class Server {
     private routes(): void {
         this.app.use('/api', new EmployeeRouter().router);
         this.app.use('/api', new AttendanceRouter().router);
+        this.app.use('/api', new AuthRouter().router);
     }
 
     public start(): void {
