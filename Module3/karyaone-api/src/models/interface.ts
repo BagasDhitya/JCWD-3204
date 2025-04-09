@@ -14,3 +14,14 @@ export interface EmployeeQuery {
     page?: number,
     limit?: number
 }
+
+export interface ClockInput {
+    userId: number,
+    date: Date
+}
+
+export interface AttendanceQuery {
+    userId?: number,
+    startDate?: string,
+    endDate?: string
+}

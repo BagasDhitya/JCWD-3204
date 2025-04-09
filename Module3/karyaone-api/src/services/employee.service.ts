@@ -2,11 +2,11 @@ import { prisma } from "../prisma/client";
 import { EmployeeInput, EmployeeQuery } from "../models/interface";
 
 export class EmployeeService {
-    async create(data: EmployeeInput) {
+    public async create(data: EmployeeInput) {
         return prisma.user.create({ data })
     }
 
-    async findAll(query: EmployeeQuery) {
+    public async findAll(query: EmployeeQuery) {
         const { search, position, department, page = 1, limit = 10 } = query
         const where: any = {}
 
@@ -32,13 +32,13 @@ export class EmployeeService {
         })
     }
 
-    async findById(id: number) {
+    public async findById(id: number) {
         return prisma.user.findUnique({
             where: { id }
         })
     }
 
-    async update(id: number, data: Partial<EmployeeInput>) {
+    public async update(id: number, data: Partial<EmployeeInput>) {
         return prisma.user.update({
             where: { id },
             data: {
@@ -48,7 +48,7 @@ export class EmployeeService {
         })
     }
 
-    async delete(id: number) {
+    public async delete(id: number) {
         return prisma.user.delete({
             where: { id }
         })
