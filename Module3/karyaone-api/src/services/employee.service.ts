@@ -3,7 +3,7 @@ import { EmployeeInput, EmployeeQuery } from "../models/interface";
 
 export class EmployeeService {
     public async create(data: EmployeeInput) {
-        return prisma.user.create({ data })
+        return await prisma.user.create({ data })
     }
 
     public async findAll(query: EmployeeQuery) {
