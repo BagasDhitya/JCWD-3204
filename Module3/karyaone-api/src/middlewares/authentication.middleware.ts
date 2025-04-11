@@ -14,7 +14,7 @@ export class AuthenticationMiddleware {
             }
 
             const token = authHeader?.split(' ')[1]
-            const decoded: any = JwtUtils.verifyToken(token as string) as any
+            const decoded = JwtUtils.verifyToken(token as string) as any
             (req as any).user = decoded;
             next()
         } catch (error) {
