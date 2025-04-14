@@ -1,8 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary'
+import { UploadApiResponse } from 'cloudinary'
 import dotenv from 'dotenv'
 
 dotenv.config()
-
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -10,13 +10,27 @@ cloudinary.config({
 })
 
 export class CloudinaryService {
-    static async uploadFile(file: any) {
-        const result = await cloudinary.uploader.upload(file?.path, {
-            folder: 'karyaone/payslips'
+    public async uploadFile(file: Express.Multer.File): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const stream = cloudinary.uploader.upload_stream(
+                {
+                    folder: 'karyaone/payslips',
+                    resource_type: 'raw', // karena PDF
+                    public_id: file.originalname
+                },
+                (error, result: UploadApiResponse | undefined) => {
+                    if (error) {
+                        console.log("Upload Error: ", error)
+                        return reject(error)
+                    }
+                    resolve(result?.secure_url || '')
+                }
+            )
+            stream.end(file.buffer) // ini penting!
         })
-        return result
     }
-    static async deleteFile(publicId: string) {
+
+    public async deleteFile(publicId: string) {
         const result = await cloudinary.uploader.destroy(publicId)
         return result
     }

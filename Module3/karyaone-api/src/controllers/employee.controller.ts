@@ -1,12 +1,49 @@
 import { Request, Response } from 'express';
 import { EmployeeService } from '../services/employee.service';
 import { EmployeeInput, EmployeeQuery } from '../models/interface';
+import { CloudinaryService } from '../lib/cloudinary.config';
+import { prisma } from '../prisma/client';
 
 export class EmployeeController {
     private employeeService: EmployeeService
+    private cloudinaryService: CloudinaryService
 
     constructor() {
         this.employeeService = new EmployeeService()
+        this.cloudinaryService = new CloudinaryService()
+    }
+
+    public async uploadPayslip(req: Request, res: Response): Promise<void> {
+        try {
+            const { id } = req.params
+
+            if (!req.file) {
+                res.status(400).json({
+                    message: "No file uploaded",
+                })
+            }
+
+            const url = await this.cloudinaryService.uploadFile(req.file as any)
+
+            const payslip = await prisma.payslip.create({
+                data: {
+                    userId: parseInt(id),
+                    month: new Date().getMonth(),
+                    year: new Date().getFullYear(),
+                    fileUrl: String(url),
+                    salary: 6500000
+                }
+            })
+
+            res.status(200).json({
+                data: payslip
+            })
+        } catch (error) {
+            res.status(400).json({
+                message: "Error : upload failed",
+                detail: error
+            })
+        }
     }
 
     public async create(req: Request, res: Response): Promise<void> {
